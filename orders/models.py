@@ -50,3 +50,24 @@ class Sub(models.Model):
 		else:
 			price = Decimal(self.price) + Decimal(0.50)
 			return f"Your Sub: {self.name}, size {self.size}, {self.extra.get()}, price {price}"
+PIZZA = [
+	('Regular', 'Regular'),
+	('Sicilian', 'Sicilian')
+]
+
+TOPPINGS = 	[
+	('Cheese', 'Cheese'),
+	('1 topping', '1 topping'),
+	('2 toppings', '2 toppings'),
+	('3 toppings', '3 toppings'),
+	('Special', 'Special')
+]
+
+class Pizza(models.Model):
+	name = models.CharField(max_length=64, choices=PIZZA)
+	size = models.CharField(max_length=1, choices=SIZE)
+	topping = models.CharField(max_length=32, choices=TOPPINGS)
+	price = models.DecimalField(max_digits=5, decimal_places=2)
+
+	def __str__(self):
+		return f"Your Pizza: {self.name}, size {self.size}, topping: {self.topping}, price {self.price}"
