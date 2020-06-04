@@ -4,9 +4,28 @@
 </head>
 <body>
 	<h1>This is orders</h1>
+	<h4>Pasta: </h4>
 	<ul>
 		{% for p in pasta %}
 			<li>{{ p }}</li>
+		{% empty %}
+			<li>No Pasta</li>
+		{% endfor %}
+	</ul>
+	<h4>Dinner Plate: </h4>
+	<ul>
+		{% for plate in dinner_plate %}
+			<li>{{ plate }}</li>
+		{% empty %}
+			<li>No Dinner Plates</li>
+		{% endfor %}
+	</ul>
+	<h4>Subs: </h4>
+	<ul>
+		{% for sub in subs %}
+			<li>{{ sub }}</li>
+		{% empty %}
+			<li>No Subs</li>
 		{% endfor %}
 	</ul>
 </body>
