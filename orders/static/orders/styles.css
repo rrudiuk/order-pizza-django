@@ -1,1 +1,8 @@
 #menu {float: left; width: 50%;}
+
+#size-wrap, 
+#pizza-wrap, 
+#topping-number-wrap, 
+#toppings-wrap1, 
+#toppings-wrap2, 
+#toppings-wrap3 {display: none;}

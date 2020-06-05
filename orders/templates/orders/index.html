@@ -77,6 +77,70 @@
 			<h2>Log in to place orders!</h2>
 		{% else %}
 			<h2>Here you can place orders!</h2>
+
+			<select id="food-type">
+				<option value="empty">Food type</option>
+				<option value="pizza">Pizza</option>
+				<option value="pasta">Pasta</option>
+				<option value="salad">Salad</option>
+				<option value="dinner_plate">Dinner Plate</option>
+				<option value="sub">Sub</option>
+			</select>
+
+			<div id="size-wrap">
+				<select id="size">
+					<option value="empty">Portion size</option>
+					<option value="small">Small</option>
+					<option value="large">Large</option>
+				</select>
+			</div>
+
+			<div id="pizza-wrap">
+				<select id="pizza-type">
+					<option value="empty">Pizza type</option>
+					<option value="regular">Regular</option>
+					<option value="sicilian">Sicilian</option>
+				</select>
+			</div>
+
+			<div id="topping-number-wrap">
+				<select id="topping-number">
+					<option value="empty">Toppings</option>
+					<option value="Cheese">Cheese</option>
+					<option value="1 topping">1 Topping</option>
+					<option value="2 toppings">2 Toppings</option>
+					<option value="3 toppings">3 Toppings</option>
+					<option value="special">Special</option>
+				</select>
+			</div>
+
+			<div id="toppings-wrap1">
+				<select id="toppings1">
+					<option value="empty">Toppings</option>
+					{% for topping in toppings %}
+						<option value={{ topping }}>{{ topping }}</option>
+					{% endfor %}
+				</select>
+			</div>
+
+			<div id="toppings-wrap2">
+				<select id="toppings2">
+					<option value="empty">Toppings</option>
+					{% for topping in toppings %}
+						<option value={{ topping }}>{{ topping }}</option>
+					{% endfor %}
+				</select>
+			</div>
+
+			<div id="toppings-wrap3">
+				<select id="toppings3">
+					<option value="empty">Toppings</option>
+					{% for topping in toppings %}
+						<option value={{ topping }}>{{ topping }}</option>
+					{% endfor %}
+				</select>
+			</div>
+
 		{% endif %}
 	</div>
 	

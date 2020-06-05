@@ -10,6 +10,7 @@ SIZE = [
 class Pasta(models.Model):
 	name = models.CharField(max_length = 64)
 	price = models.DecimalField(max_digits=5, decimal_places=2)
+	food_type = "Pasta"
 
 	def __str__(self):
 		return f"You Pasta: {self.name}, price {self.price}"
@@ -18,6 +19,7 @@ class Pasta(models.Model):
 class Salad(models.Model):
 	name = models.CharField(max_length = 64)
 	price = models.DecimalField(max_digits=5, decimal_places=2)
+	food_type = "Salad"
 
 	def __str__(self):
 		return f"Your Salad: {self.name}, price {self.price}"
@@ -27,6 +29,7 @@ class DinnerPlate(models.Model):
 	name = models.CharField(max_length = 64)
 	size = models.CharField(max_length=5, choices=SIZE)
 	price = models.DecimalField(max_digits=5, decimal_places=2)
+	food_type = "Dinner Plate"
 
 	def __str__(self):
 		return f"Your Dinner Plate: {self.name}, size: {self.size}, price {self.price}"
@@ -34,6 +37,7 @@ class DinnerPlate(models.Model):
 class SubExtra(models.Model):
 	name = models.CharField(max_length = 64)
 	price = models.DecimalField(max_digits=5, decimal_places=2)
+	food_type = "Sub Extra"
 
 	def __str__(self):
 		return f"{self.name}"
@@ -43,6 +47,7 @@ class Sub(models.Model):
 	size = models.CharField(max_length=5, choices=SIZE)
 	price = models.DecimalField(max_digits=5, decimal_places=2)
 	extra = models.ManyToManyField(SubExtra, blank=True, related_name="extra")
+	food_type = "Subs"
 
 	def __str__(self):
 		if self.extra.count() == 0:
@@ -65,6 +70,7 @@ TOPPINGS = 	[
 
 class Topping(models.Model):
 	name = models.CharField(max_length = 64)
+	food_type = "Toppings"
 
 	def __str__(self):
 		return f"{self.name}"
@@ -74,6 +80,7 @@ class Pizza(models.Model):
 	size = models.CharField(max_length=5, choices=SIZE)
 	topping = models.CharField(max_length=32, choices=TOPPINGS)
 	price = models.DecimalField(max_digits=5, decimal_places=2)
+	food_type = "Pizza"
 
 	def __str__(self):
 		return f"Your Pizza: {self.name}, size: {self.size}, topping: {self.topping}, price {self.price}"
