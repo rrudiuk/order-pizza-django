@@ -4,12 +4,36 @@
 </head>
 <body>
 	<h1>This is orders</h1>
+	<h4>Pizza: </h4>
+	<ul>
+		{% for pizza in pizzas %}
+			<li>{{ pizza }}</li>
+		{% empty %}
+			<li>No Pasta</li>
+		{% endfor %}
+	</ul>
+	<h4>Topping: </h4>
+	<ul>
+		{% for topping in toppings %}
+			<li>{{ topping }}</li>
+		{% empty %}
+			<li>No Topping</li>
+		{% endfor %}
+	</ul>
 	<h4>Pasta: </h4>
 	<ul>
 		{% for p in pasta %}
 			<li>{{ p }}</li>
 		{% empty %}
 			<li>No Pasta</li>
+		{% endfor %}
+	</ul>
+	<h4>Salad: </h4>
+	<ul>
+		{% for salad in salads %}
+			<li>{{ salad }}</li>
+		{% empty %}
+			<li>No Salad</li>
 		{% endfor %}
 	</ul>
 	<h4>Dinner Plate: </h4>

@@ -3,8 +3,8 @@ from decimal import Decimal
 
 # Create your models here.
 SIZE = [
-	('L', 'L'),
-	('S', 'S'),
+	('Large', 'Large'),
+	('Small', 'Small'),
 ]
 # Model for Pasta
 class Pasta(models.Model):
@@ -25,11 +25,11 @@ class Salad(models.Model):
 # Model for Dinner Plate
 class DinnerPlate(models.Model):
 	name = models.CharField(max_length = 64)
-	size = models.CharField(max_length=1, choices=SIZE)
+	size = models.CharField(max_length=5, choices=SIZE)
 	price = models.DecimalField(max_digits=5, decimal_places=2)
 
 	def __str__(self):
-		return f"Your Dinner Plate: {self.name}, size {self.size}, price {self.price}"
+		return f"Your Dinner Plate: {self.name}, size: {self.size}, price {self.price}"
 
 class SubExtra(models.Model):
 	name = models.CharField(max_length = 64)
@@ -40,16 +40,16 @@ class SubExtra(models.Model):
 
 class Sub(models.Model):
 	name = models.CharField(max_length = 64)
-	size = models.CharField(max_length=1, choices=SIZE)
+	size = models.CharField(max_length=5, choices=SIZE)
 	price = models.DecimalField(max_digits=5, decimal_places=2)
 	extra = models.ManyToManyField(SubExtra, blank=True, related_name="extra")
 
 	def __str__(self):
 		if self.extra.count() == 0:
-			return f"Your Sub: {self.name}, size {self.size}, price {self.price}"
+			return f"Your Sub: {self.name}, size: {self.size}, price {self.price}"
 		else:
 			price = Decimal(self.price) + Decimal(0.50)
-			return f"Your Sub: {self.name}, size {self.size}, {self.extra.get()}, price {price}"
+			return f"Your Sub: {self.name}, size: {self.size}, {self.extra.get()}, price {price}"
 PIZZA = [
 	('Regular', 'Regular'),
 	('Sicilian', 'Sicilian')
@@ -57,17 +57,23 @@ PIZZA = [
 
 TOPPINGS = 	[
 	('Cheese', 'Cheese'),
-	('1 topping', '1 topping'),
-	('2 toppings', '2 toppings'),
-	('3 toppings', '3 toppings'),
+	('1', '1 topping'),
+	('2', '2 toppings'),
+	('3', '3 toppings'),
 	('Special', 'Special')
 ]
 
+class Topping(models.Model):
+	name = models.CharField(max_length = 64)
+
+	def __str__(self):
+		return f"{self.name}"
+
 class Pizza(models.Model):
 	name = models.CharField(max_length=64, choices=PIZZA)
-	size = models.CharField(max_length=1, choices=SIZE)
+	size = models.CharField(max_length=5, choices=SIZE)
 	topping = models.CharField(max_length=32, choices=TOPPINGS)
 	price = models.DecimalField(max_digits=5, decimal_places=2)
 
 	def __str__(self):
-		return f"Your Pizza: {self.name}, size {self.size}, topping: {self.topping}, price {self.price}"
+		return f"Your Pizza: {self.name}, size: {self.size}, topping: {self.topping}, price {self.price}"
