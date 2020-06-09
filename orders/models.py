@@ -13,7 +13,7 @@ class Pasta(models.Model):
 	food_type = "Pasta"
 
 	def __str__(self):
-		return f"You Pasta: {self.name}, price {self.price}"
+		return f"Your Pasta: {self.name}, price {self.price}"
 
 # Model for Salad
 class Salad(models.Model):
@@ -34,10 +34,18 @@ class DinnerPlate(models.Model):
 	def __str__(self):
 		return f"Your Dinner Plate: {self.name}, size: {self.size}, price {self.price}"
 
-class SubExtra(models.Model):
+class SubExtraAll(models.Model):
 	name = models.CharField(max_length = 64)
 	price = models.DecimalField(max_digits=5, decimal_places=2)
 	food_type = "Sub Extra"
+
+	def __str__(self):
+		return f"{self.name}"
+
+class SubExtraSteak(models.Model):
+	name = models.CharField(max_length = 64)
+	price = models.DecimalField(max_digits=5, decimal_places=2)
+	food_type = "Sub Extra Steak Cheese"
 
 	def __str__(self):
 		return f"{self.name}"
@@ -46,15 +54,20 @@ class Sub(models.Model):
 	name = models.CharField(max_length = 64)
 	size = models.CharField(max_length=5, choices=SIZE)
 	price = models.DecimalField(max_digits=5, decimal_places=2)
-	extra = models.ManyToManyField(SubExtra, blank=True, related_name="extra")
+	extra = models.ManyToManyField(SubExtraAll, blank=True, related_name="extra")
+	extraSteak = models.ManyToManyField(SubExtraSteak, blank=True, related_name="extra_steak")
 	food_type = "Subs"
 
 	def __str__(self):
-		if self.extra.count() == 0:
-			return f"Your Sub: {self.name}, size: {self.size}, price {self.price}"
-		else:
-			price = Decimal(self.price) + Decimal(0.50)
-			return f"Your Sub: {self.name}, size: {self.size}, {self.extra.get()}, price {price}"
+		return f"Your Sub: {self.name}, size: {self.size}, price {self.price}"
+
+	# def __str__(self):
+	# 	if self.extra.count() == 0:
+	# 		return f"Your Sub: {self.name}, size: {self.size}, price {self.price}"
+	# 	else:
+	# 		price = Decimal(self.price) + Decimal(0.50)
+	# 		return f"Your Sub: {self.name}, size: {self.size}, {self.extra.get()}, price {price}"
+
 PIZZA = [
 	('Regular', 'Regular'),
 	('Sicilian', 'Sicilian')

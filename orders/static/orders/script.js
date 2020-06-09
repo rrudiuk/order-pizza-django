@@ -19,26 +19,50 @@ document.addEventListener('DOMContentLoaded', () => {
 		document.querySelector('#topping-number-wrap').style.display = 'block';
 	}
 
+	function hideSubSelectors() {
+		document.querySelector('#size-wrap').style.display = 'none';
+		document.querySelector('#subs-wrap').style.display = 'none';
+		document.querySelector('#extra-all-wrap').style.display = 'none';
+		document.querySelector('#extra-steak-wrap').style.display = 'none';
+	}
+
+	function showSubSelectors() {
+		document.querySelector('#size-wrap').style.display = 'block';
+		document.querySelector('#subs-wrap').style.display = 'block';
+		document.querySelector('#extra-all-wrap').style.display = 'block';
+	}
+
+	document.querySelector('#sub-name').onchange = () => {
+			if (document.querySelector('#sub-name').value === 'Steak+Cheese') {
+				document.querySelector('#extra-steak-wrap').style.display = 'block';
+			} else {
+				document.querySelector('#extra-steak-wrap').style.display = 'none';
+			}
+		};
+
+
+
 	document.querySelector('#food-type').onchange = () => {
 		const food_type = document.querySelector('#food-type').value;
 
 		switch(food_type) {
 			case 'pizza':
+				hideSubSelectors();
 				showPizzaSelectors();
+				break;
+			case 'sub':
+				hidePizzaSelectors();
+				showSubSelectors();
+				break;
+			case 'dinner_plate':
+				hidePizzaSelectors();
+				// showDinnerPlateSelectors();
 				break;
 			case 'pasta':
 				hidePizzaSelectors();
 				break;
 			case 'salad':
 				hidePizzaSelectors();
-				break;
-			case 'dinner_plate':
-				hidePizzaSelectors();
-				document.querySelector('#size-wrap').style.display = 'block';
-				break;
-			case 'sub':
-				hidePizzaSelectors();
-				document.querySelector('#size-wrap').style.display = 'block';
 				break;
 			default:
 				hidePizzaSelectors()

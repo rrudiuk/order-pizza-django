@@ -29,6 +29,28 @@
 				<li>No Pasta</li>
 			{% endfor %}
 		</ul>
+		<h4>Subs: </h4>
+		<ul>
+			{% for sub in subs %}
+				<li>{{ sub }}</li>
+				{% if sub.name == "Steak+Cheese" %}
+					<ul>
+						{% for subextra in subextrasteak %}
+							<li>+ {{ subextra }}</li>
+						{% empty %}
+						{% endfor %}
+					</ul>
+				{% endif %}
+			{% empty %}
+				<li>No Subs</li>
+			{% endfor %}
+			<ul>
+				{% for subextra in subextraall %}
+					<li>+ {{ subextra }}</li>
+					{% empty %}
+				{% endfor %}
+			</ul>
+		</ul>
 		<h4>Topping: </h4>
 		<ul>
 			{% for topping in toppings %}
@@ -61,14 +83,6 @@
 				<li>No Dinner Plates</li>
 			{% endfor %}
 		</ul>
-		<h4>Subs: </h4>
-		<ul>
-			{% for sub in subs %}
-				<li>{{ sub }}</li>
-			{% empty %}
-				<li>No Subs</li>
-			{% endfor %}
-		</ul>
 
 	</div>
 	
@@ -77,16 +91,16 @@
 			<h2>Log in to place orders!</h2>
 		{% else %}
 			<h2>Here you can place orders!</h2>
-
+			<!-- List of available foods -->
 			<select id="food-type">
 				<option value="empty">Food type</option>
 				<option value="pizza">Pizza</option>
+				<option value="sub">Sub</option>
+				<option value="dinner_plate">Dinner Plate</option>
 				<option value="pasta">Pasta</option>
 				<option value="salad">Salad</option>
-				<option value="dinner_plate">Dinner Plate</option>
-				<option value="sub">Sub</option>
 			</select>
-
+			<!-- Size. Applies to Pizza, Subs, Dinner Plates -->
 			<div id="size-wrap">
 				<select id="size">
 					<option value="empty">Portion size</option>
@@ -94,7 +108,7 @@
 					<option value="large">Large</option>
 				</select>
 			</div>
-
+			<!-- Pizza types:Regular and Scilian -->
 			<div id="pizza-wrap">
 				<select id="pizza-type">
 					<option value="empty">Pizza type</option>
@@ -102,7 +116,7 @@
 					<option value="sicilian">Sicilian</option>
 				</select>
 			</div>
-
+			<!-- Pizza. Number of toppings -->
 			<div id="topping-number-wrap">
 				<select id="topping-number">
 					<option value="empty">Toppings</option>
@@ -113,7 +127,7 @@
 					<option value="special">Special</option>
 				</select>
 			</div>
-
+			<!-- If 1 topping -->
 			<div id="toppings-wrap1">
 				<select id="toppings1">
 					<option value="empty">Toppings</option>
@@ -122,7 +136,7 @@
 					{% endfor %}
 				</select>
 			</div>
-
+			<!-- If 2 toppings -->
 			<div id="toppings-wrap2">
 				<select id="toppings2">
 					<option value="empty">Toppings</option>
@@ -131,12 +145,38 @@
 					{% endfor %}
 				</select>
 			</div>
-
+			<!-- If 3 toppings -->
 			<div id="toppings-wrap3">
 				<select id="toppings3">
 					<option value="empty">Toppings</option>
 					{% for topping in toppings %}
 						<option value={{ topping }}>{{ topping }}</option>
+					{% endfor %}
+				</select>
+			</div>
+			<!-- Subs menu -->
+			<div id="subs-wrap">
+				<select id="sub-name">
+					{% for sub in subs %}
+						<option value={{ sub.name }}>{{ sub.name }}</option>
+					{% endfor %}
+				</select>
+			</div>
+			<!-- Extra for Steak + Cheese -->
+			<div id="extra-steak-wrap">
+				<select id="extra-steak">
+					<option value="empty">Steak extra</option>
+					{% for subextra in subextrasteak %}
+						<option value={{ subextra }}>{{ subextra }}</option>
+					{% endfor %}
+				</select>
+			</div>
+			<!-- Extra for all subs -->
+			<div id="extra-all-wrap">
+				<select id="extra-all">
+					<option value="empty">Extra</option>
+					{% for subextra in subextraall %}
+						<option value={{ subextra }}>{{ subextra }}</option>
 					{% endfor %}
 				</select>
 			</div>
