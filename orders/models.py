@@ -10,19 +10,19 @@ SIZE = [
 class Pasta(models.Model):
 	name = models.CharField(max_length = 64)
 	price = models.DecimalField(max_digits=5, decimal_places=2)
-	food_type = "Pasta"
+	hash_name = models.CharField(max_length = 64)
 
 	def __str__(self):
-		return f"Your Pasta: {self.name}, price {self.price}"
+		return f"Pasta {self.name}, price {self.price}"
 
 # Model for Salad
 class Salad(models.Model):
 	name = models.CharField(max_length = 64)
 	price = models.DecimalField(max_digits=5, decimal_places=2)
-	food_type = "Salad"
+	hash_name = models.CharField(max_length = 64)
 
 	def __str__(self):
-		return f"Your Salad: {self.name}, price {self.price}"
+		return f"Salad {self.name}, price {self.price}"
 
 # Model for Dinner Plate
 class DinnerPlate(models.Model):
@@ -97,3 +97,17 @@ class Pizza(models.Model):
 
 	def __str__(self):
 		return f"Your Pizza: {self.name}, size: {self.size}, topping: {self.topping}, price {self.price}"
+
+class Order(models.Model):
+	name = models.CharField(max_length = 64)
+	size = models.CharField(max_length=5, blank=True)
+	exta = models.CharField(max_length = 64, blank=True)
+	extra_steak = models.CharField(max_length = 64, blank=True)
+	price = models.DecimalField(max_digits=5, decimal_places=2)
+
+	def __str__(self):
+		if not self.size:
+			return f"{self.name}, {self.price}"
+		else:
+			price = Decimal(self.price) + Decimal(0.50)
+			return f"{self.name}, {self.size}, {price}"
