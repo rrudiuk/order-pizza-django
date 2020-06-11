@@ -8,4 +8,7 @@
 #topping-number-wrap, 
 #toppings-wrap1, 
 #toppings-wrap2, 
-#toppings-wrap3 {display: none;}
+#toppings-wrap3, 
+#pasta-wrap,
+#salad-wrap,
+#dinner-plate-wrap {display: none;}

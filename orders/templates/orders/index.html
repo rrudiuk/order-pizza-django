@@ -96,9 +96,9 @@
 				<option value="empty">Food type</option>
 				<option value="pizza">Pizza</option>
 				<option value="sub">Sub</option>
-				<option value="dinner_plate">Dinner Plate</option>
 				<option value="pasta">Pasta</option>
 				<option value="salad">Salad</option>
+				<option value="dinner_plate">Dinner Plate</option>
 			</select>
 			<!-- Size. Applies to Pizza, Subs, Dinner Plates -->
 			<div id="size-wrap">
@@ -177,6 +177,30 @@
 					<option value="empty">Extra</option>
 					{% for subextra in subextraall %}
 						<option value={{ subextra }}>{{ subextra }}</option>
+					{% endfor %}
+				</select>
+			</div>
+			<!-- Pasta menu -->
+			<div id="pasta-wrap">
+				<select id="pasta-name">
+					{% for p in pasta %}
+						<option value={{ p.name }}>{{ p.name }}</option>
+					{% endfor %}
+				</select>
+			</div>
+			<!-- salad menu -->
+			<div id="salad-wrap">
+				<select id="salad-name">
+					{% for salad in salads %}
+						<option value={{ salad.name }}>{{ salad.name }}</option>
+					{% endfor %}
+				</select>
+			</div>
+			<!-- dinner plate menu -->
+			<div id="dinner-plate-wrap">
+				<select id="dinner-plate-name">
+					{% for plate in dinner_plate %}
+						<option value={{ plate.name }}>{{ plate.name }}</option>
 					{% endfor %}
 				</select>
 			</div>

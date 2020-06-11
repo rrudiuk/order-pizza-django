@@ -40,6 +40,32 @@ document.addEventListener('DOMContentLoaded', () => {
 			}
 		};
 
+	function showPastaSelectors() {
+		document.querySelector('#pasta-wrap').style.display = 'block';
+	}
+
+	function hidePastaSelectors() {
+		document.querySelector('#pasta-wrap').style.display = 'none';
+	}
+
+	function showSaladSelectors() {
+		document.querySelector('#salad-wrap').style.display = 'block';
+	}
+
+	function hideSaladSelectors() {
+		document.querySelector('#salad-wrap').style.display = 'none';
+	}
+
+	function showDinnerPlateSelectors() {
+		document.querySelector('#dinner-plate-wrap').style.display = 'block';
+		document.querySelector('#size-wrap').style.display = 'block';
+	}
+
+	function hideDinnerPlateSelectors() {
+		document.querySelector('#dinner-plate-wrap').style.display = 'none';
+		document.querySelector('#size-wrap').style.display = 'none';
+	}
+
 
 
 	document.querySelector('#food-type').onchange = () => {
@@ -48,24 +74,45 @@ document.addEventListener('DOMContentLoaded', () => {
 		switch(food_type) {
 			case 'pizza':
 				hideSubSelectors();
+				hidePastaSelectors();
+				hideSaladSelectors();
+				hideDinnerPlateSelectors();
 				showPizzaSelectors();
 				break;
 			case 'sub':
 				hidePizzaSelectors();
+				hidePastaSelectors();
+				hideSaladSelectors();
+				hideDinnerPlateSelectors();
 				showSubSelectors();
-				break;
-			case 'dinner_plate':
-				hidePizzaSelectors();
-				// showDinnerPlateSelectors();
 				break;
 			case 'pasta':
 				hidePizzaSelectors();
+				hideSubSelectors();
+				hideSaladSelectors();
+				hideDinnerPlateSelectors();
+				showPastaSelectors();
 				break;
 			case 'salad':
 				hidePizzaSelectors();
+				hideSubSelectors();
+				hidePastaSelectors();
+				hideDinnerPlateSelectors();
+				showSaladSelectors();
+				break;
+			case 'dinner_plate':
+				hidePizzaSelectors();
+				hideSubSelectors();
+				hidePastaSelectors();
+				hideSaladSelectors();
+				showDinnerPlateSelectors();
 				break;
 			default:
-				hidePizzaSelectors()
+				hidePizzaSelectors();
+				hideSubSelectors();
+				hidePastaSelectors();
+				hideSaladSelectors();
+				hideDinnerPlateSelectors();
 		}
 	};
 
