@@ -33,7 +33,7 @@
 		<ul>
 			{% for sub in subs %}
 				<li>{{ sub }}</li>
-				{% if sub.name == "Steak+Cheese" %}
+				{% if sub.hash_name == "steak+cheese" %}
 					<ul>
 						{% for subextra in subextrasteak %}
 							<li>+ {{ subextra }}</li>
@@ -104,7 +104,7 @@
 				</select>
 				<!-- Size. Applies to Pizza, Subs, Dinner Plates -->
 				<div id="size-wrap">
-					<select id="size">
+					<select id="size" name="size">
 						<option value="empty">Portion size</option>
 						<option value="small">Small</option>
 						<option value="large">Large</option>
@@ -158,15 +158,15 @@
 				</div>
 				<!-- Subs menu -->
 				<div id="subs-wrap">
-					<select id="sub-name">
+					<select id="sub-name" name="sub-name">
 						{% for sub in subs %}
-							<option value={{ sub.name }}>{{ sub.name }}</option>
+							<option value={{ sub.hash_name }}>{{ sub.name }}</option>
 						{% endfor %}
 					</select>
 				</div>
 				<!-- Extra for Steak + Cheese -->
 				<div id="extra-steak-wrap">
-					<select id="extra-steak">
+					<select id="extra-steak" name="extra-steak">
 						<option value="empty">Steak extra</option>
 						{% for subextra in subextrasteak %}
 							<option value={{ subextra }}>{{ subextra }}</option>
@@ -175,7 +175,7 @@
 				</div>
 				<!-- Extra for all subs -->
 				<div id="extra-all-wrap">
-					<select id="extra-all">
+					<select id="extra-all" name="extra-all">
 						<option value="empty">Extra</option>
 						{% for subextra in subextraall %}
 							<option value={{ subextra }}>{{ subextra }}</option>

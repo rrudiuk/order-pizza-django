@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 
 	document.querySelector('#sub-name').onchange = () => {
-			if (document.querySelector('#sub-name').value === 'Steak+Cheese') {
+			if (document.querySelector('#sub-name').value === 'steak+cheese') {
 				document.querySelector('#extra-steak-wrap').style.display = 'block';
 			} else {
 				document.querySelector('#extra-steak-wrap').style.display = 'none';

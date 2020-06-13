@@ -37,7 +37,7 @@ class DinnerPlate(models.Model):
 class SubExtraAll(models.Model):
 	name = models.CharField(max_length = 64)
 	price = models.DecimalField(max_digits=5, decimal_places=2)
-	food_type = "Sub Extra"
+	hash_name = models.CharField(max_length = 64)
 
 	def __str__(self):
 		return f"{self.name}"
@@ -45,21 +45,27 @@ class SubExtraAll(models.Model):
 class SubExtraSteak(models.Model):
 	name = models.CharField(max_length = 64)
 	price = models.DecimalField(max_digits=5, decimal_places=2)
-	food_type = "Sub Extra Steak Cheese"
+	hash_name = models.CharField(max_length = 64)
 
 	def __str__(self):
 		return f"{self.name}"
 
 class Sub(models.Model):
 	name = models.CharField(max_length = 64)
-	size = models.CharField(max_length=5, choices=SIZE)
-	price = models.DecimalField(max_digits=5, decimal_places=2)
+	# size = models.CharField(max_length=5, choices=SIZE)
+	priceS = models.DecimalField(max_digits=5, decimal_places=2, default = 0.00)
+	priceL = models.DecimalField(max_digits=5, decimal_places=2, default = 0.00)
+	hash_name = models.CharField(max_length = 64)
 	extra = models.ManyToManyField(SubExtraAll, blank=True, related_name="extra")
 	extraSteak = models.ManyToManyField(SubExtraSteak, blank=True, related_name="extra_steak")
-	food_type = "Subs"
 
 	def __str__(self):
-		return f"Your Sub: {self.name}, size: {self.size}, price {self.price}"
+		if self.priceS != 0.00 and self.priceL != 0.00:
+			return f"{self.name}, small: {self.priceS}, large: {self.priceL}"
+		elif self.priceS == 0.00:
+			return f"{self.name}, large: {self.priceL}"
+		else:
+			return f"{self.name}, small: {self.priceS}"
 
 	# def __str__(self):
 	# 	if self.extra.count() == 0:
@@ -101,13 +107,24 @@ class Pizza(models.Model):
 class Order(models.Model):
 	name = models.CharField(max_length = 64)
 	size = models.CharField(max_length=5, blank=True)
-	exta = models.CharField(max_length = 64, blank=True)
-	extra_steak = models.CharField(max_length = 64, blank=True)
+	extra = models.CharField(max_length = 64, blank=True, default = "empty")
+	extra_steak = models.CharField(max_length = 64, blank=True, default = "empty")
 	price = models.DecimalField(max_digits=5, decimal_places=2)
 
 	def __str__(self):
 		if not self.size:
 			return f"{self.name}, {self.price}"
+		elif self.extra == "empty" and self.extra_steak == "empty":
+			return f"{self.name}, {self.size}, {self.price}"
+		elif self.extra != "empty" and self.extra_steak == "empty":
+			price = Decimal(self.price) + Decimal(0.50)
+			return f"{self.name}, {self.size}, with {self.extra}, {price}"
+		elif self.extra == "empty" and self.extra_steak != "empty":
+			price = Decimal(self.price) + Decimal(0.50)
+			return f"{self.name}, {self.size}, with {self.extra_steak}, {price}"
+		elif self.extra != "empty" and self.extra_steak != "empty":
+			price = Decimal(self.price) + Decimal(1.00)
+			return f"{self.name}, {self.size}, with {self.extra} and {self.extra_steak}, {price}"
 		else:
 			price = Decimal(self.price) + Decimal(0.50)
 			return f"{self.name}, {self.size}, {price}"
