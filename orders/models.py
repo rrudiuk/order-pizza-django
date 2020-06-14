@@ -27,12 +27,18 @@ class Salad(models.Model):
 # Model for Dinner Plate
 class DinnerPlate(models.Model):
 	name = models.CharField(max_length = 64)
-	size = models.CharField(max_length=5, choices=SIZE)
-	price = models.DecimalField(max_digits=5, decimal_places=2)
-	food_type = "Dinner Plate"
+	# size = models.CharField(max_length=5, choices=SIZE)
+	priceS = models.DecimalField(max_digits=5, decimal_places=2, default = 0.00)
+	priceL = models.DecimalField(max_digits=5, decimal_places=2, default = 0.00)
+	hash_name = models.CharField(max_length = 64)
 
 	def __str__(self):
-		return f"Your Dinner Plate: {self.name}, size: {self.size}, price {self.price}"
+		if self.priceS != 0.00 and self.priceL != 0.00:
+			return f"{self.name}, small: {self.priceS}, large: {self.priceL}"
+		elif self.priceS == 0.00:
+			return f"{self.name}, large: {self.priceL}"
+		else:
+			return f"{self.name}, small: {self.priceS}"
 
 class SubExtraAll(models.Model):
 	name = models.CharField(max_length = 64)
@@ -112,19 +118,23 @@ class Order(models.Model):
 	price = models.DecimalField(max_digits=5, decimal_places=2)
 
 	def __str__(self):
+		# Pasta and Salad
 		if not self.size:
 			return f"{self.name}, {self.price}"
+		# Subs without extra
 		elif self.extra == "empty" and self.extra_steak == "empty":
 			return f"{self.name}, {self.size}, {self.price}"
+		# Subs with extra cheese
 		elif self.extra != "empty" and self.extra_steak == "empty":
 			price = Decimal(self.price) + Decimal(0.50)
 			return f"{self.name}, {self.size}, with {self.extra}, {price}"
+		# Sub Steak + Cheese with extra
 		elif self.extra == "empty" and self.extra_steak != "empty":
 			price = Decimal(self.price) + Decimal(0.50)
 			return f"{self.name}, {self.size}, with {self.extra_steak}, {price}"
+		# Sub Steak + Cheese with extra and extra cheese
 		elif self.extra != "empty" and self.extra_steak != "empty":
 			price = Decimal(self.price) + Decimal(1.00)
 			return f"{self.name}, {self.size}, with {self.extra} and {self.extra_steak}, {price}"
 		else:
-			price = Decimal(self.price) + Decimal(0.50)
-			return f"{self.name}, {self.size}, {price}"
+			return f"{self.name}, {self.size}, {self.price}"

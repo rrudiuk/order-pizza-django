@@ -169,7 +169,7 @@
 					<select id="extra-steak" name="extra-steak">
 						<option value="empty">Steak extra</option>
 						{% for subextra in subextrasteak %}
-							<option value={{ subextra }}>{{ subextra }}</option>
+							<option value={{ subextra.hash_name }}>{{ subextra }}</option>
 						{% endfor %}
 					</select>
 				</div>
@@ -178,7 +178,7 @@
 					<select id="extra-all" name="extra-all">
 						<option value="empty">Extra</option>
 						{% for subextra in subextraall %}
-							<option value={{ subextra }}>{{ subextra }}</option>
+							<option value={{ subextra.hash_name }}>{{ subextra }}</option>
 						{% endfor %}
 					</select>
 				</div>
@@ -200,9 +200,9 @@
 				</div>
 				<!-- dinner plate menu -->
 				<div id="dinner-plate-wrap">
-					<select id="dinner-plate-name">
+					<select id="dinner-plate-name" name="dinner-plate">
 						{% for plate in dinner_plate %}
-							<option value={{ plate.name }}>{{ plate.name }}</option>
+							<option value={{ plate.hash_name }}>{{ plate.name }}</option>
 						{% endfor %}
 					</select>
 				</div>
