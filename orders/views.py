@@ -35,20 +35,24 @@ def index(request):
             elif food_type == 'sub':
                 food_name = request.POST["sub-name"]
                 food_size = request.POST["size"]
+                db_query = Sub.objects.get(hash_name = food_name)
+                if food_size == 'small':
+                    order = Order(name = db_query.name, size = food_size, price = db_query.priceS)
+                else:
+                    order = Order(name = db_query.name, size = food_size, price = db_query.priceL)
+                order.save()
+                # Add extra if selected
                 food_extra = request.POST["extra-all"]
                 if food_extra != 'empty':
                     extra = SubExtraAll.objects.get(hash_name = food_extra)
+                    order.extra = extra.name
                 steak_extra = request.POST["extra-steak"]
-                if food_extra != 'empty':
+                # Add steak extra if selected
+                if steak_extra != 'empty':
                     extra_steak = SubExtraSteak.objects.get(hash_name = steak_extra)
-                db_query = Sub.objects.get(hash_name = food_name)
-                if food_size == 'small':
-                    order = Order(name = db_query.name, size = food_size, extra = extra.name, 
-                        extra_steak = extra_steak.name, price = db_query.priceS)
-                else:
-                    order = Order(name = db_query.name, size = food_size, extra = extra.name, 
-                        extra_steak = extra_steak.name, price = db_query.priceL)
+                    order.extra_steak = extra_steak.name
                 order.save()
+
 
             # If Dinner Plate was selected
             elif food_type == 'dinner_plate':
@@ -60,6 +64,78 @@ def index(request):
                 else:
                     order = Order(name = db_query.name, size = food_size, price = db_query.priceL)
                 order.save()
+
+            # If Pizza was selected
+            elif food_type == 'pizza':
+                food_name = request.POST["pizza-type"]
+                food_size = request.POST["size"]
+                toppings = request.POST["topping-number"]
+                db_query = Pizza.objects.get(hash_name = food_name)
+                if food_size == 'small':
+                    order = Order(name = db_query.name + ' pizza, ' + toppings, size = food_size, 
+                        price = db_query.cheeseS)
+                else:
+                    order = Order(name = db_query.name + ' pizza, ' + toppings, size = food_size, 
+                        price = db_query.cheeseL)
+                order.save()
+
+                # Pizza with 1 topping
+                if toppings == '1 topping':
+                    # Add topping
+                    topping1_name = request.POST["topping1"]
+                    db_topping1_query = Topping.objects.get(hash_name = topping1_name)
+                    order.topping1 = db_topping1_query.name
+                    # Set the price
+                    if food_size == 'small':
+                        order.price = db_query.toppin1S
+                    else:
+                        order.price = db_query.toppin1L
+
+                # Pizza with 2 toppings
+                if toppings == '2 toppings':
+                    # Add first topping
+                    topping1_name = request.POST["topping1"]
+                    db_topping1_query = Topping.objects.get(hash_name = topping1_name)
+                    order.topping1 = db_topping1_query.name
+                    # Add second topping
+                    topping2_name = request.POST["topping2"]
+                    db_topping2_query = Topping.objects.get(hash_name = topping2_name)
+                    order.topping2 = db_topping2_query.name
+                    # Set the price
+                    if food_size == 'small':
+                        order.price = db_query.toppin2S
+                    else:
+                        order.price = db_query.toppin2L
+
+                # Pizza with 3 toppings
+                if toppings == '3 toppings':
+                    # Add first topping
+                    topping1_name = request.POST["topping1"]
+                    db_topping1_query = Topping.objects.get(hash_name = topping1_name)
+                    order.topping1 = db_topping1_query.name
+                    # Add second topping
+                    topping2_name = request.POST["topping2"]
+                    db_topping2_query = Topping.objects.get(hash_name = topping2_name)
+                    order.topping2 = db_topping2_query.name
+                    # Add third topping
+                    topping3_name = request.POST["topping3"]
+                    db_topping3_query = Topping.objects.get(hash_name = topping3_name)
+                    order.topping3 = db_topping3_query.name
+                    # Set the price
+                    if food_size == 'small':
+                        order.price = db_query.toppin3S
+                    else:
+                        order.price = db_query.toppin3L
+
+                # Special pizza
+                if toppings == 'special':
+                    # Set the price
+                    if food_size == 'small':
+                        order.price = db_query.specialS
+                    else:
+                        order.price = db_query.specialL
+                order.save()
+
 
 
     context = {

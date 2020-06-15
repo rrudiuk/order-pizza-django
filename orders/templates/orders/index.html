@@ -24,9 +24,16 @@
 		<h4>Pizza: </h4>
 		<ul>
 			{% for pizza in pizzas %}
-				<li>{{ pizza }}</li>
+				<li>
+					{{ pizza }} </br></br>
+					Cheese: small {{ pizza.cheeseS }}, large {{ pizza.cheeseL }} </br>
+					1 Topping: small {{ pizza.toppin1S }}, large {{ pizza.toppin1L }} </br>
+					2 Toppings: small {{ pizza.toppin2S }}, large {{ pizza.toppin2L }} </br>
+					3 Toppings: small {{ pizza.toppin3S }}, large {{ pizza.toppin3L }} </br>
+					Special: small {{ pizza.specialS }}, large {{ pizza.specialL }} </br>
+				</li> </br>
 			{% empty %}
-				<li>No Pasta</li>
+				<li>No Pizza</li>
 			{% endfor %}
 		</ul>
 		<h4>Subs: </h4>
@@ -112,15 +119,16 @@
 				</div>
 				<!-- Pizza types:Regular and Scilian -->
 				<div id="pizza-wrap">
-					<select id="pizza-type">
+					<select id="pizza-type" name="pizza-type">
 						<option value="empty">Pizza type</option>
-						<option value="regular">Regular</option>
-						<option value="sicilian">Sicilian</option>
+						{% for pizza in pizzas %}
+							<option value={{ pizza.hash_name }}>{{ pizza.name }}</option>
+						{% endfor %}
 					</select>
 				</div>
 				<!-- Pizza. Number of toppings -->
 				<div id="topping-number-wrap">
-					<select id="topping-number">
+					<select id="topping-number" name="topping-number">
 						<option value="empty">Toppings</option>
 						<option value="Cheese">Cheese</option>
 						<option value="1 topping">1 Topping</option>
@@ -131,28 +139,28 @@
 				</div>
 				<!-- If 1 topping -->
 				<div id="toppings-wrap1">
-					<select id="toppings1">
+					<select id="toppings1" name="topping1">
 						<option value="empty">Toppings</option>
 						{% for topping in toppings %}
-							<option value={{ topping }}>{{ topping }}</option>
+							<option value={{ topping.hash_name }}>{{ topping }}</option>
 						{% endfor %}
 					</select>
 				</div>
 				<!-- If 2 toppings -->
 				<div id="toppings-wrap2">
-					<select id="toppings2">
+					<select id="toppings2" name="topping2">
 						<option value="empty">Toppings</option>
 						{% for topping in toppings %}
-							<option value={{ topping }}>{{ topping }}</option>
+							<option value={{ topping.hash_name }}>{{ topping }}</option>
 						{% endfor %}
 					</select>
 				</div>
 				<!-- If 3 toppings -->
 				<div id="toppings-wrap3">
-					<select id="toppings3">
+					<select id="toppings3" name="topping3">
 						<option value="empty">Toppings</option>
 						{% for topping in toppings %}
-							<option value={{ topping }}>{{ topping }}</option>
+							<option value={{ topping.hash_name  }}>{{ topping }}</option>
 						{% endfor %}
 					</select>
 				</div>
