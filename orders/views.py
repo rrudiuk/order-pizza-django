@@ -2,6 +2,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
+from django.db.models import Sum
 
 from .models import Pasta, DinnerPlate, Sub, SubExtraAll, SubExtraSteak, Salad, Pizza, Topping, Order
 
@@ -10,10 +11,17 @@ def index(request):
 
     username = ""
     user_id = ""
+    message = ""
 
     if request.user.is_authenticated:
         username = request.user
         user_id = request.user.id
+
+        db_order_sum = Order.objects.filter(user_id = user_id).aggregate(total_price=Sum('price'))
+        if db_order_sum["total_price"] is not None:
+            order_price = round(db_order_sum["total_price"], 2)
+        else:
+            order_price = 0
 
         if request.method == 'POST' and request.POST["select-food-type"] != 'empty':
 
@@ -37,23 +45,26 @@ def index(request):
             elif food_type == 'sub':
                 food_name = request.POST["sub-name"]
                 food_size = request.POST["size"]
-                db_query = Sub.objects.get(hash_name = food_name)
-                if food_size == 'small':
-                    order = Order(user_id = request.user.id, name = db_query.name, size = food_size, price = db_query.priceS)
+                if food_name != "empty" and food_size != "empty":
+                    db_query = Sub.objects.get(hash_name = food_name)
+                    if food_size == 'small':
+                        order = Order(user_id = request.user.id, name = db_query.name, size = food_size, price = db_query.priceS)
+                    else:
+                        order = Order(user_id = request.user.id, name = db_query.name, size = food_size, price = db_query.priceL)
+                    order.save()
+                    # Add extra if selected
+                    food_extra = request.POST["extra-all"]
+                    if food_extra != 'empty':
+                        extra = SubExtraAll.objects.get(hash_name = food_extra)
+                        order.extra = extra.name
+                    steak_extra = request.POST["extra-steak"]
+                    # Add steak extra if selected
+                    if steak_extra != 'empty':
+                        extra_steak = SubExtraSteak.objects.get(hash_name = steak_extra)
+                        order.extra_steak = extra_steak.name
+                    order.save()
                 else:
-                    order = Order(user_id = request.user.id, name = db_query.name, size = food_size, price = db_query.priceL)
-                order.save()
-                # Add extra if selected
-                food_extra = request.POST["extra-all"]
-                if food_extra != 'empty':
-                    extra = SubExtraAll.objects.get(hash_name = food_extra)
-                    order.extra = extra.name
-                steak_extra = request.POST["extra-steak"]
-                # Add steak extra if selected
-                if steak_extra != 'empty':
-                    extra_steak = SubExtraSteak.objects.get(hash_name = steak_extra)
-                    order.extra_steak = extra_steak.name
-                order.save()
+                    message = "Please select all the necessary items."
 
 
             # If Dinner Plate was selected
@@ -152,9 +163,23 @@ def index(request):
             "orders": Order.objects.all(),
             "user": username,
             "user_id": user_id,
+            "order_price": order_price,
+            "message": message,
         }
 
     return render(request, "orders/index.html", context)
 
 def login_view(request):
-    return render(request, "orders/login.html")
+
+    username = request.POST.get('username')
+    password = request.POST.get('password')
+    user = authenticate(request, username=username, password=password)
+    if user is not None:
+        login(request, user)
+        return HttpResponseRedirect(reverse("index"))
+    else:
+        return render(request, "orders/login.html", {"message": "Invalid credentials."})
+
+def logout_view(request):
+    logout(request)
+    return render(request, "orders/login.html", {"message": "Logged out."})

@@ -125,4 +125,4 @@ class Order(models.Model):
 			price = Decimal(self.price) + Decimal(1.00)
 			return f"{self.name}, {self.size}, with {self.extra} and {self.extra_steak}, {price}"
 		else:
-			return f"{self.name}, {self.size}, with {self.topping1} {self.price}"
+			return f"{self.name}, {self.size}, {self.price}"

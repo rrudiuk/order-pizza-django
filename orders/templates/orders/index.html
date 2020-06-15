@@ -10,7 +10,8 @@
 		{% if user == "" %}
 			<span>Hello, User</span>
 		{% else %}
-			<span>Hello, {{ user }}</span>
+			<span>Hello, {{ user }}</span> </br>
+			<a href="{% url 'logout' %}">Logout</a>
 		{% endif %}
 		{% if user == "" %}
 			</br>
@@ -98,6 +99,7 @@
 			<h2>Log in to place orders!</h2>
 		{% else %}
 			<h2>Here you can place orders!</h2>
+			{{ message }}
 			<form method="post" action="{% url 'index' %}">
 				<!-- List of available foods -->
 				{% csrf_token %}
@@ -228,6 +230,9 @@
 					<li>Nothing in the cart</li>
 				{% endfor %}
 			</ul>
+			{% if order_price > 0 %}
+				<h4>Total price: {{ order_price }}</h4>
+			{% endif %}
 
 		{% endif %}
 	</div>
