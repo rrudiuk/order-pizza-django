@@ -221,7 +221,9 @@
 
 			<ul>
 				{% for order in orders %}
+					{% if order.user_id == user_id %}
 					<li>{{ order }}</li>
+					{% endif %}
 				{% empty %}
 					<li>Nothing in the cart</li>
 				{% endfor %}

@@ -9,9 +9,11 @@ from .models import Pasta, DinnerPlate, Sub, SubExtraAll, SubExtraSteak, Salad, 
 def index(request):
 
     username = ""
+    user_id = ""
 
     if request.user.is_authenticated:
         username = request.user
+        user_id = request.user.id
 
         if request.method == 'POST' and request.POST["select-food-type"] != 'empty':
 
@@ -21,14 +23,14 @@ def index(request):
             if food_type == 'salad':
                 food_name = request.POST["salad-name"]
                 db_query = Salad.objects.get(hash_name = food_name)
-                order = Order(name = db_query.name, price = db_query.price)
+                order = Order(user_id = request.user.id, name = db_query.name, price = db_query.price)
                 order.save()
 
             # If Pasta was selected
             elif food_type == 'pasta':
                 food_name = request.POST["pasta-name"]
                 db_query = Pasta.objects.get(hash_name = food_name)
-                order = Order(name = db_query.name, price = db_query.price)
+                order = Order(user_id = request.user.id, name = db_query.name, price = db_query.price)
                 order.save()
 
             # If Sub was selected
@@ -37,9 +39,9 @@ def index(request):
                 food_size = request.POST["size"]
                 db_query = Sub.objects.get(hash_name = food_name)
                 if food_size == 'small':
-                    order = Order(name = db_query.name, size = food_size, price = db_query.priceS)
+                    order = Order(user_id = request.user.id, name = db_query.name, size = food_size, price = db_query.priceS)
                 else:
-                    order = Order(name = db_query.name, size = food_size, price = db_query.priceL)
+                    order = Order(user_id = request.user.id, name = db_query.name, size = food_size, price = db_query.priceL)
                 order.save()
                 # Add extra if selected
                 food_extra = request.POST["extra-all"]
@@ -60,9 +62,9 @@ def index(request):
                 food_size = request.POST["size"]
                 db_query = DinnerPlate.objects.get(hash_name = food_name)
                 if food_size == 'small':
-                    order = Order(name = db_query.name, size = food_size, price = db_query.priceS)
+                    order = Order(user_id = request.user.id, name = db_query.name, size = food_size, price = db_query.priceS)
                 else:
-                    order = Order(name = db_query.name, size = food_size, price = db_query.priceL)
+                    order = Order(user_id = request.user.id, name = db_query.name, size = food_size, price = db_query.priceL)
                 order.save()
 
             # If Pizza was selected
@@ -72,10 +74,10 @@ def index(request):
                 toppings = request.POST["topping-number"]
                 db_query = Pizza.objects.get(hash_name = food_name)
                 if food_size == 'small':
-                    order = Order(name = db_query.name + ' pizza, ' + toppings, size = food_size, 
+                    order = Order(user_id = request.user.id, name = db_query.name + ' pizza, ' + toppings, size = food_size, 
                         price = db_query.cheeseS)
                 else:
-                    order = Order(name = db_query.name + ' pizza, ' + toppings, size = food_size, 
+                    order = Order(user_id = request.user.id, name = db_query.name + ' pizza, ' + toppings, size = food_size, 
                         price = db_query.cheeseL)
                 order.save()
 
@@ -149,6 +151,7 @@ def index(request):
             "toppings": Topping.objects.all(),
             "orders": Order.objects.all(),
             "user": username,
+            "user_id": user_id,
         }
 
     return render(request, "orders/index.html", context)

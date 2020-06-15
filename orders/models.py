@@ -2,10 +2,6 @@ from django.db import models
 from decimal import Decimal
 
 # Create your models here.
-SIZE = [
-	('Large', 'Large'),
-	('Small', 'Small'),
-]
 # Model for Pasta
 class Pasta(models.Model):
 	name = models.CharField(max_length = 64)
@@ -58,7 +54,6 @@ class SubExtraSteak(models.Model):
 
 class Sub(models.Model):
 	name = models.CharField(max_length = 64)
-	# size = models.CharField(max_length=5, choices=SIZE)
 	priceS = models.DecimalField(max_digits=5, decimal_places=2, default = 0.00)
 	priceL = models.DecimalField(max_digits=5, decimal_places=2, default = 0.00)
 	hash_name = models.CharField(max_length = 64)
@@ -73,26 +68,6 @@ class Sub(models.Model):
 		else:
 			return f"{self.name}, small: {self.priceS}"
 
-	# def __str__(self):
-	# 	if self.extra.count() == 0:
-	# 		return f"Your Sub: {self.name}, size: {self.size}, price {self.price}"
-	# 	else:
-	# 		price = Decimal(self.price) + Decimal(0.50)
-	# 		return f"Your Sub: {self.name}, size: {self.size}, {self.extra.get()}, price {price}"
-
-PIZZA = [
-	('Regular', 'Regular'),
-	('Sicilian', 'Sicilian')
-]
-
-TOPPINGS = 	[
-	('Cheese', 'Cheese'),
-	('1', '1 topping'),
-	('2', '2 toppings'),
-	('3', '3 toppings'),
-	('Special', 'Special')
-]
-
 class Topping(models.Model):
 	name = models.CharField(max_length = 64)
 	hash_name = models.CharField(max_length = 64)
@@ -103,8 +78,6 @@ class Topping(models.Model):
 class Pizza(models.Model):
 	name = models.CharField(max_length = 64)
 	hash_name = models.CharField(max_length = 64)
-	# size = models.CharField(max_length=5, choices=SIZE)
-	# topping = models.CharField(max_length=32, choices=TOPPINGS)
 	cheeseS = models.DecimalField(max_digits=5, decimal_places=2, default = 0.00)
 	cheeseL = models.DecimalField(max_digits=5, decimal_places=2, default = 0.00)
 	toppin1S = models.DecimalField(max_digits=5, decimal_places=2, default = 0.00)
@@ -120,6 +93,7 @@ class Pizza(models.Model):
 		return f"{self.name} pizza"
 
 class Order(models.Model):
+	user_id= models.IntegerField()
 	name = models.CharField(max_length = 64)
 	size = models.CharField(max_length=5, blank=True)
 	extra = models.CharField(max_length = 64, default = "empty")
@@ -139,10 +113,6 @@ class Order(models.Model):
 			return f"{self.name}, {self.size}, with {self.topping1}, {self.topping2}, price: {self.price}"
 		elif self.topping1 != "empty":
 			return f"{self.name}, {self.size}, with {self.topping1}, price: {self.price}"
-		# # Subs without extra
-		# elif self.extra == "empty" and self.extra_steak == "empty":
-		# 	return f"{self.name}, {self.size}, {self.price}"
-		# Subs with extra cheese
 		elif self.extra != "empty" and self.extra_steak == "empty":
 			price = Decimal(self.price) + Decimal(0.50)
 			return f"{self.name}, {self.size}, with {self.extra}, {price}"
