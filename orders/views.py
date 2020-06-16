@@ -71,12 +71,15 @@ def index(request):
             elif food_type == 'dinner_plate':
                 food_name = request.POST["dinner-plate"]
                 food_size = request.POST["size"]
-                db_query = DinnerPlate.objects.get(hash_name = food_name)
-                if food_size == 'small':
-                    order = Order(user_id = request.user.id, name = db_query.name, size = food_size, price = db_query.priceS)
+                if food_name != "empty" and food_size != "empty":
+                    db_query = DinnerPlate.objects.get(hash_name = food_name)
+                    if food_size == 'small':
+                        order = Order(user_id = request.user.id, name = db_query.name, size = food_size, price = db_query.priceS)
+                    else:
+                        order = Order(user_id = request.user.id, name = db_query.name, size = food_size, price = db_query.priceL)
+                    order.save()
                 else:
-                    order = Order(user_id = request.user.id, name = db_query.name, size = food_size, price = db_query.priceL)
-                order.save()
+                    message = "Please select all the necessary items."
 
             # If Pizza was selected
             elif food_type == 'pizza':
@@ -188,6 +191,9 @@ def cart(request):
     if request.user.is_authenticated:
 
         user_id = request.user.id
+
+        if request.method == 'POST':
+            Order.objects.filter(user_id = user_id).delete()
 
         db_order_sum = Order.objects.filter(user_id = user_id).aggregate(total_price=Sum('price'))
         if db_order_sum["total_price"] is not None:

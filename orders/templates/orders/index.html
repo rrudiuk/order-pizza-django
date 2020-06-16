@@ -114,7 +114,6 @@
 				<!-- Size. Applies to Pizza, Subs, Dinner Plates -->
 				<div id="size-wrap">
 					<select id="size" name="size">
-						<option value="empty">Portion size</option>
 						<option value="small">Small</option>
 						<option value="large">Large</option>
 					</select>
@@ -122,16 +121,16 @@
 				<!-- Pizza types:Regular and Scilian -->
 				<div id="pizza-wrap">
 					<select id="pizza-type" name="pizza-type">
-						<option value="empty">Pizza type</option>
 						{% for pizza in pizzas %}
 							<option value={{ pizza.hash_name }}>{{ pizza.name }}</option>
+						{% empty %}
+							<option value="empty">Pizza type</option>
 						{% endfor %}
 					</select>
 				</div>
 				<!-- Pizza. Number of toppings -->
 				<div id="topping-number-wrap">
 					<select id="topping-number" name="topping-number">
-						<option value="empty">Toppings</option>
 						<option value="Cheese">Cheese</option>
 						<option value="1 topping">1 Topping</option>
 						<option value="2 toppings">2 Toppings</option>
@@ -142,27 +141,30 @@
 				<!-- If 1 topping -->
 				<div id="toppings-wrap1">
 					<select id="toppings1" name="topping1">
-						<option value="empty">Toppings</option>
 						{% for topping in toppings %}
 							<option value={{ topping.hash_name }}>{{ topping }}</option>
+						{% empty %}
+							<option value="empty">No toppings</option>
 						{% endfor %}
 					</select>
 				</div>
 				<!-- If 2 toppings -->
 				<div id="toppings-wrap2">
 					<select id="toppings2" name="topping2">
-						<option value="empty">Toppings</option>
 						{% for topping in toppings %}
 							<option value={{ topping.hash_name }}>{{ topping }}</option>
+						{% empty %}
+							<option value="empty">No toppings</option>
 						{% endfor %}
 					</select>
 				</div>
 				<!-- If 3 toppings -->
 				<div id="toppings-wrap3">
 					<select id="toppings3" name="topping3">
-						<option value="empty">Toppings</option>
 						{% for topping in toppings %}
 							<option value={{ topping.hash_name  }}>{{ topping }}</option>
+						{% empty %}
+							<option value="empty">No toppings</option>
 						{% endfor %}
 					</select>
 				</div>
@@ -177,7 +179,7 @@
 				<!-- Extra for Steak + Cheese -->
 				<div id="extra-steak-wrap">
 					<select id="extra-steak" name="extra-steak">
-						<option value="empty">Steak extra</option>
+						<option value="empty">Add steak extra</option>
 						{% for subextra in subextrasteak %}
 							<option value={{ subextra.hash_name }}>{{ subextra }}</option>
 						{% endfor %}
@@ -186,7 +188,7 @@
 				<!-- Extra for all subs -->
 				<div id="extra-all-wrap">
 					<select id="extra-all" name="extra-all">
-						<option value="empty">Extra</option>
+						<option value="empty">Add extra</option>
 						{% for subextra in subextraall %}
 							<option value={{ subextra.hash_name }}>{{ subextra }}</option>
 						{% endfor %}
@@ -197,6 +199,8 @@
 					<select id="pasta-name" name="pasta-name">
 						{% for p in pasta %}
 							<option value={{ p.hash_name }}>{{ p.name }}</option>
+						{% empty %}
+							<option value="empty">No pasta</option>
 						{% endfor %}
 					</select>
 				</div>
@@ -205,6 +209,8 @@
 					<select id="salad-name" name="salad-name">
 						{% for salad in salads %}
 							<option value={{ salad.hash_name }}>{{ salad.name }}</option>
+						{% empty %}
+							<option value="empty">No salads</option>
 						{% endfor %}
 					</select>
 				</div>
@@ -213,6 +219,8 @@
 					<select id="dinner-plate-name" name="dinner-plate">
 						{% for plate in dinner_plate %}
 							<option value={{ plate.hash_name }}>{{ plate.name }}</option>
+						{% empty %}
+							<option value="empty">No dinner plates</option>
 						{% endfor %}
 					</select>
 				</div>
@@ -220,19 +228,7 @@
 
 				<input type="submit" name="add-to-cart" value="Add to cart">
 			</form>
-
-			<ul>
-				{% for order in orders %}
-					{% if order.user_id == user_id %}
-					<li>{{ order }}</li>
-					{% endif %}
-				{% empty %}
-					<li>Nothing in the cart</li>
-				{% endfor %}
-			</ul>
-			{% if order_price > 0 %}
-				<h4>Total price: {{ order_price }}</h4>
-			{% endif %}
+			<br>
 
 			<a href="{% url 'cart' %}">Go to Cart</a>
 
