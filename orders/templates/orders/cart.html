@@ -1,0 +1,23 @@
+{% extends "orders/base.html" %}
+
+{% block title %}
+    Cart
+{% endblock %}
+
+{% block body %}
+	<h3>{{ message }}</h3>
+
+	<ul>
+		{% for order in orders %}
+			{% if order.user_id == user_id %}
+				<li>{{ order }}</li>
+			{% endif %}
+		{% empty %}
+			<li>Nothing in the cart</li>
+		{% endfor %}
+	</ul>
+	{% if order_price > 0 %}
+		<h4>Total price: {{ order_price }}</h4>
+	{% endif %}
+	<a href="{% url 'index' %}">Return to Menu</a>
+{% endblock %}

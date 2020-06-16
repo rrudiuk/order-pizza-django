@@ -183,3 +183,26 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return render(request, "orders/login.html", {"message": "Logged out."})
+
+def cart(request):
+    if request.user.is_authenticated:
+
+        user_id = request.user.id
+
+        db_order_sum = Order.objects.filter(user_id = user_id).aggregate(total_price=Sum('price'))
+        if db_order_sum["total_price"] is not None:
+            order_price = round(db_order_sum["total_price"], 2)
+        else:
+            order_price = 0
+
+        context = {
+            "orders": Order.objects.all(),
+            "user_id": user_id,
+            "order_price": order_price,
+            "message": "This is your order:"
+        }
+
+        return render(request, "orders/cart.html", context)
+
+    else:
+        return render(request, "orders/cart.html", {"message": "Please log in to access cart."})
