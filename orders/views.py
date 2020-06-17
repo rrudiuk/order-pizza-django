@@ -1,5 +1,6 @@
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render
 from django.urls import reverse
 from django.db.models import Sum
@@ -166,7 +167,6 @@ def index(request):
             "orders": Order.objects.all(),
             "user": username,
             "user_id": user_id,
-            "order_price": order_price,
             "message": message,
         }
 
@@ -186,6 +186,20 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return render(request, "orders/login.html", {"message": "Logged out."})
+
+def signup(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            return HttpResponseRedirect(reverse("index"))
+    else:
+        form = UserCreationForm()
+    return render(request, 'orders/signup.html', {'form': form})
 
 def cart(request):
     if request.user.is_authenticated:

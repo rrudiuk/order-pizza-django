@@ -15,7 +15,8 @@
 		{% endif %}
 		{% if user == "" %}
 			</br>
-			<a href="{% url 'login' %}">Sign up/Sign in to make orders</a>
+			<a href="{% url 'signup' %}">Sign up to make orders</a><br>
+			Or <a href="{% url 'login' %}">login</a>
 		{% endif %}
 	</header>
 
